@@ -2,13 +2,31 @@
   <div class="video-component">
     <div class="landing">
       <img class="dexter-logo" src="logo.png" alt="Dexter Logo" />
-      <img class="scroll-cta" src="scroll-cta.png" alt="Scroll to continue" />
+      <img class="scroll-cta" src="scroll-cta-2.png" alt="Scroll to continue" />
     </div>
 
-    <div class="cta">
-      <div class="button">Launch AR Filter</div>
-      <div class="button">Watch the first Episode</div>
-      <div class="button">Join Showtime</div>
+    <div class="lockup">
+      <a href="https://www.sho.com/dexter-new-blood" target="_blank"
+        ><img class="watch-now" src="watch-now.png" alt=""
+      /></a>
+      <img class="tune-in" src="tune-in.png" alt="" />
+    </div>
+
+    <div class="endframe">
+      <a href="https://www.instagram.com/sho_dexter/?hl=en" target="_blank"
+        ><img class="link yellow" src="filter.png" alt=""
+      /></a>
+      <a
+        href="https://www.sho.com/dexter-new-blood#/stream/series/323/int-dexter-6447"
+        target="_blank"
+        ><img class="link yellow" src="catchup.png" alt=""
+      /></a>
+      <a
+        href="https://www.sho.com/video/76209/yellowjackets-official-trailer"
+        target="_blank"
+        ><img class="link yellow" src="yellowjackets.png" alt=""
+      /></a>
+      <div class="endframe-bg"></div>
     </div>
     <div class="video-outer">
       <video
@@ -74,19 +92,28 @@ export default {
             gsap.to(".landing", { autoAlpha: 0, duration: 1, scale: 0.95 });
           },
           onLeave: () => {
-            gsap.to(".button", {
-              y: 0,
-              duration: 1.25,
+            gsap.to(".endframe-bg", {
+              duration: 1,
               autoAlpha: 1,
-              stagger: 0.2,
-              ease: "Expo.inOut",
+            });
+            gsap.to(".link", {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.75,
+              stagger: 0.1,
+              ease: "Expo.out",
             });
           },
           onEnterBack: () => {
-            gsap.to(".button", {
-              y: 20,
-              duration: 0.75,
+            gsap.to(".endframe-bg", {
+              duration: 1,
               autoAlpha: 0,
+            });
+            gsap.to(".link", {
+              autoAlpha: 0,
+              y: 20,
+              duration: 0.5,
+              ease: "Expo.out",
             });
           },
           onLeaveBack: () => {
@@ -115,6 +142,12 @@ export default {
   left: 0;
   height: 100vh;
   width: 100vw;
+}
+.lockup {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 103;
 }
 .landing {
   z-index: 101;
@@ -164,10 +197,52 @@ video,
 }
 .dexter-logo {
   width: 50%;
-  margin-bottom: 10vh;
+  margin-bottom: 3vh;
 }
 .scroll-cta {
   max-width: 320px;
+}
+.tune-in {
+  max-width: 235px;
+  position: fixed;
+  bottom: 3vh;
+  right: 3vw;
+}
+.watch-now {
+  max-width: 200px;
+  position: fixed;
+  bottom: 3vh;
+  left: 3vw;
+}
+.endframe {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 102;
+  justify-content: center;
+  align-items: center;
+}
+.endframe a {
+  z-index: 3;
+}
+.endframe-bg {
+  z-index: 2;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  opacity: 0;
+}
+.link {
+  max-width: 350px;
+  margin: 0 10px;
+  transform: translateY(10px);
+  opacity: 0;
+  z-index: 3;
 }
 @media only screen and (max-width: 600px) {
   .cta {
@@ -181,14 +256,32 @@ video,
   }
   .dexter-logo {
     width: 95%;
-    margin-bottom: 15vh;
-    margin-top: 15vh;
   }
   .scroll-cta {
     max-width: 275px;
   }
   .video-component {
     background-image: url("/mobile-bg.jpg");
+  }
+  .tune-in {
+    max-width: 150px;
+    position: fixed;
+    bottom: 15px;
+    left: 10px;
+  }
+  .watch-now {
+    max-width: 150px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    left: auto;
+  }
+  .endframe {
+    flex-direction: column;
+  }
+  .link {
+    max-width: 300px;
+    margin: 5px 0;
   }
 }
 </style>

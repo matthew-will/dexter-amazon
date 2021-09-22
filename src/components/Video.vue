@@ -12,8 +12,8 @@
     </div>
     <div class="video-outer">
       <video
+        @loadedmetadata="scrollTrigger"
         ref="video"
-        :src="`/dexter${video}.mp4`"
         playsinline
         muted
         poster="poster.jpg"
@@ -36,16 +36,23 @@ export default {
   data() {
     return {
       video: "",
+      activated: false,
     };
   },
   mounted() {
-    this.scrollTrigger();
     gsap.to(".landing", { autoAlpha: 1, duration: 1 });
     if (window.innerWidth < 600) {
-      this.video = "-mobile";
+      this.$refs.video.src = "/dexter-mobile.mp4";
     } else {
-      this.video = "";
+      this.$refs.video.src = "/dexter.mp4";
     }
+    document.addEventListener("touchstart", () => {
+      if (!this.activated) {
+        this.$refs.video.play();
+        this.$refs.video.pause();
+        this.activated = true;
+      }
+    });
   },
   methods: {
     scrollTrigger() {
@@ -53,8 +60,6 @@ export default {
 
       // ffmpeg -i *insert file name* -movflags faststart -vcodec libx264 -crf 23 -g 1 -pix_fmt yuv420p output.mp4
       // ffmpeg -i *insert file name* -vf scale=960:-1 -movflags faststart -vcodec libx264 -crf 20 -g 1 -pix_fmt yuv420p output_960.mp4
-
-      let video = document.querySelector("video");
 
       let tl = gsap.timeline({
         defaults: { duration: 1 },
@@ -88,23 +93,7 @@ export default {
         },
       });
 
-      video.onloadedmetadata = function() {
-        console.log(video.duration);
-        tl.to(video, { currentTime: video.duration - 1 });
-      };
-
-      // Dealing with devices
-      function isTouchDevice() {
-        return (
-          "ontouchstart" in window ||
-          navigator.maxTouchPoints > 0 ||
-          navigator.msMaxTouchPoints > 0
-        );
-      }
-      if (isTouchDevice()) {
-        video.play();
-        video.pause();
-      }
+      tl.to(this.$refs.video, { currentTime: this.$refs.video.duration - 1 });
     },
   },
 };

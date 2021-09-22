@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="video-component">
     <div class="landing">
       <img class="dexter-logo" src="logo.png" alt="Dexter Logo" />
-      <div class="scroll-cta">Scroll to Continue</div>
+      <img class="scroll-cta" src="scroll-cta.png" alt="Scroll to continue" />
     </div>
 
     <div class="cta">
@@ -16,7 +16,6 @@
         ref="video"
         playsinline
         muted
-        poster="poster.jpg"
         class="video-background"
       ></video>
     </div>
@@ -37,14 +36,17 @@ export default {
     return {
       video: "",
       activated: false,
+      bg: "",
     };
   },
   mounted() {
     gsap.to(".landing", { autoAlpha: 1, duration: 1 });
     if (window.innerWidth < 600) {
-      this.$refs.video.src = "/dexter-mobile.mp4";
+      this.$refs.video.src = "/mobile.mp4";
+      this.bg = "/mobile-bg.jpg";
     } else {
-      this.$refs.video.src = "/dexter.mp4";
+      this.$refs.video.src = "/desktop.mp4";
+      this.bg = "/desktop-bg.jpg";
     }
     document.addEventListener("touchstart", () => {
       if (!this.activated) {
@@ -100,6 +102,12 @@ export default {
 </script>
 
 <style scoped>
+.video-component {
+  background-image: url("/desktop-bg.jpg");
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+}
 .video-outer,
 .landing {
   position: fixed;
@@ -118,7 +126,8 @@ export default {
   align-items: center;
   opacity: 0;
 }
-video {
+video,
+.background {
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -158,11 +167,7 @@ video {
   margin-bottom: 10vh;
 }
 .scroll-cta {
-  background: #ad071c;
-  padding: 20px 30px;
-  width: auto;
-  color: white;
-  text-transform: uppercase;
+  max-width: 320px;
 }
 @media only screen and (max-width: 600px) {
   .cta {
@@ -178,6 +183,12 @@ video {
     width: 95%;
     margin-bottom: 15vh;
     margin-top: 15vh;
+  }
+  .scroll-cta {
+    max-width: 275px;
+  }
+  .video-component {
+    background-image: url("/mobile-bg.jpg");
   }
 }
 </style>

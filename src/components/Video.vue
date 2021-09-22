@@ -89,12 +89,12 @@ export default {
       });
 
       video.onloadedmetadata = function() {
+        console.log(video.duration);
         tl.to(video, { currentTime: video.duration - 1 });
       };
 
       // Dealing with devices
       function isTouchDevice() {
-        console.log("is touch");
         return (
           "ontouchstart" in window ||
           navigator.maxTouchPoints > 0 ||
